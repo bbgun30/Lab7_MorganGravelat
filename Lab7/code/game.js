@@ -2,7 +2,7 @@
 var actorChars = {
   "@": Player,
   "o": Coin, // A coin will wobble up and down
-  "l": Launch
+  "l": Boost
 };
 
 function Level(plan) {
@@ -84,13 +84,13 @@ function Coin(pos) {
 }
 Coin.prototype.type = "coin";
 
-function Launch(pos) {
+function Boost(pos) {
   this.basePos = this.pos = pos.plus(new Vector(0.4, 0.2));
   this.size = new Vector(0.3, 0.3);
   // Make it go back and forth in a sine wave.
   this.wobble = Math.random() * Math.PI * 3;
 }
-Launch.prototype.type = "launch";
+Boost.prototype.type = "boost";
 
 // Helper function to easily create an element of a type provided 
 // and assign it a class.
@@ -247,7 +247,7 @@ Level.prototype.animate = function(step, keys) {
 
 var shakeSpeed = 3, shakeDist = 0.03;
 
-Launch.prototype.act = function(step) {
+Boost.prototype.act = function(step) {
   this.wobble += step * shakeSpeed;
   var wobblePos = Math.sin(this.wobble) * shakeDist;
   this.pos = this.basePos.plus(new Vector(0, wobblePos));
@@ -313,14 +313,14 @@ Player.prototype.act = function(step, level, keys) {
   if (otherActor)
     level.playerTouched(otherActor.type, otherActor);
 };
-
+/*
 Level.prototype.playerTouched = function(type, actor) {
 	if (type == "launch") {
 		this.actors = this.actors.filter(function(other) {
 			return other != actor;
 		});
 	}
-}
+}*/
 
 Level.prototype.playerTouched = function(type, actor) {
   if (type == "coin") {
@@ -328,6 +328,14 @@ Level.prototype.playerTouched = function(type, actor) {
       return other != actor;
     });
   }
+if (type == "boost") {
+	
+		this.actors = this.actors.filter(function(other) {
+			jumpSpeed = 20;
+			playerXSpeed = 18;
+			return other != actor;
+		});
+	}
 };
 
 // Arrow key codes for readibility
