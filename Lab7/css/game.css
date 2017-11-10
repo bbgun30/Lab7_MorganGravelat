@@ -7,7 +7,7 @@
 
 .actor  { position: absolute;  }
 .coin   { background: rgb(241, 229, 89); }
-.launch { background: rgb(255, 140, 0); }
+.boost { background: rgb(255, 140, 0); }
 .player { background: rgb(64, 64, 64); }
 
 .game {
